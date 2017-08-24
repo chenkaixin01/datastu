@@ -1,0 +1,15 @@
+/bin/
+.DS_Store
+.classpath
+.project
+.settings/
+*.class
+./target/
+*.iml
+./.idea/
+./.idea/libraries/
+/no_eclipse/no_eclipse.iml
+/main/main.iml
+./.idea/workspace.xml
+./out/
+/target/
