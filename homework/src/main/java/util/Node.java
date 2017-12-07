@@ -1,14 +1,20 @@
 package util;
 
-public class Node {
+public class Node<T> {
     Node father;
     Node rightChild;
     Node leftChild;
     Integer key ;
+    T value;
     public Node(){};
 
     public Node(Integer key) {
         this.key = key;
+    }
+
+    public Node(Integer key, T value) {
+        this.key = key;
+        this.value = value;
     }
 
     public Node(Integer key, Node father, Node rightChild, Node leftChild) {
@@ -51,9 +57,22 @@ public class Node {
         this.rightChild = rightChild;
     }
 
+    public T getValue() {
+        return value;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
-        return "Node [root=" + father + ", rightChild=" + rightChild
-                + ", leftChild=" + leftChild + "]";
+        return "Node{" +
+                "father=" + father +
+                ", rightChild=" + rightChild +
+                ", leftChild=" + leftChild +
+                ", key=" + key +
+                ", value=" + value +
+                '}';
     }
 }
