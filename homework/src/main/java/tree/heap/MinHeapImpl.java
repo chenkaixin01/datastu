@@ -1,10 +1,13 @@
 package tree.heap;
 
+import util.Node;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MinHeapImpl implements MinHeap {
-    private Integer[] heap ;
+public class MinHeapImpl<T> implements MinHeap<T> {
+    private Node[] heap ;
     private int length = 0;
     private int size;
 
@@ -13,7 +16,17 @@ public class MinHeapImpl implements MinHeap {
      */
     public MinHeapImpl(){
         this.size = 10;
-        this.heap = new Integer[size];
+        this.heap = new Node[size];
+    }
+
+    /**
+     * 传入一个实体数组，初始化堆，堆的大小为数组的大小
+     * @param heap:传入的数组
+     */
+    public MinHeapImpl(Node<T>[] heap) {
+        this.heap = heap;
+        this.size = heap.length;
+        makeMinHeap(this.heap);
     }
 
     /**
@@ -22,7 +35,7 @@ public class MinHeapImpl implements MinHeap {
      */
     public MinHeapImpl(int size) {
         this.size = size;
-        this.heap = new Integer[size];
+        this.heap = new Node[size];
     }
 
     /**
@@ -33,21 +46,22 @@ public class MinHeapImpl implements MinHeap {
      * @param value 值
      * @return 返回插入状态
      */
-    public boolean insert(int value) {
+    public boolean insert(int key,T value) {
+        Node<T> newNode = new Node<T>(key,value);
         if(this.length==0){
-            heap[this.length] = value;
+            heap[this.length] = newNode;
             this.length++;
             return true;
         }
         if (this.length<this.size){
-            heap[this.length] = value;
+            heap[this.length] = newNode;
             this.length++;
             makeMinHeap(this.heap);
             return true;
         }
         if (this.length>=size){
-            if (value>heap[0]){
-                heap[0]=value;
+            if (newNode.getKey ()>heap[0].getKey ()){
+                heap[0]=newNode;
                 makeMinHeap (this.heap);
                 return true;
             }else {
@@ -61,7 +75,7 @@ public class MinHeapImpl implements MinHeap {
      * 构建堆
      * @param heap 待构建的堆
      */
-    private void makeMinHeap(Integer[] heap) {
+    private void makeMinHeap(Node<T>[] heap) {
         if (this.length<=1){
             return;
         }
@@ -78,14 +92,14 @@ public class MinHeapImpl implements MinHeap {
      * @param index 索引
      * @param last 堆的最后一个元素的索引
      */
-    private void adjustMinHeap(Integer[] heap, int index, int last) {
+    private void adjustMinHeap(Node<T>[] heap, int index, int last) {
         int sonIndex = index*2+1;
-        int tmp = heap[index];
+        Node<T> tmp = heap[index];
         while(sonIndex<last){
-            if((sonIndex+1<last)&&heap[sonIndex+1]<heap[sonIndex]){
+            if((sonIndex+1<last)&&heap[sonIndex+1].getKey ()<heap[sonIndex].getKey ()){
                 sonIndex++;
             }
-            if (tmp>heap[sonIndex]){
+            if (tmp.getKey ()>heap[sonIndex].getKey ()){
                 heap[index]=heap[sonIndex];
                 index = sonIndex;
                 sonIndex = index*2+1;
@@ -96,9 +110,9 @@ public class MinHeapImpl implements MinHeap {
         heap[index] = tmp;
     }
 
-    public boolean remove(int value) {
+    public boolean removeByKey(int key) {
         for (int i=0;i<this.length;i++){
-            if (heap[i] == value){
+            if (heap[i].getKey () == key){
                 heap[i]=heap[this.length-1];
                 heap[this.length-1] = null;
                 this.length--;
@@ -109,16 +123,51 @@ public class MinHeapImpl implements MinHeap {
         return false;
     }
 
-    public boolean removeMin() {
-        if(this.length==0){
-            return false;
+    public List<T> getValueByKey(int key) {
+        List<Node<T>> listEntry = getEntryByKey (key);
+        List<T> list = new ArrayList<T> (listEntry.size ());
+        for (Node<T> tmpNode:listEntry){
+            list.add (tmpNode.getValue ());
         }
-        System.out.println (heap[0]);
-        heap[0]= heap[this.length-1];
-        heap[this.length-1] = null;
+        return list;
+    }
+
+    public List<Node<T>> getEntryByKey(int key) {
+        Node<T> tmpNode;
+        List<Node<T>> list = new ArrayList<Node<T>> ();
+        for (int i=0; i<this.length; i++){
+            if(this.heap[i].getKey () == key){
+                list.add (this.heap[i]);
+            }
+        }
+        return list;
+    }
+
+    public T popTopValue() {
+        return popTopEntry().getValue ();
+    }
+
+    public Node<T> popTopEntry() {
+        if(this.length==0){
+            return null;
+        }
+        Node<T> tmpNode = this.heap[0];
+        this.heap[0]= this.heap[this.length-1];
+        this.heap[this.length-1] = null;
         this.length--;
         makeMinHeap (this.heap);
-        return true;
+        return tmpNode;
+    }
+
+    public T getTopVlue() {
+        return getTopEntry().getValue ();
+    }
+
+    public Node<T> getTopEntry() {
+        if(this.length==0){
+            return null;
+        }
+        return this.heap[0];
     }
 
     public boolean isEmpty() {
@@ -129,16 +178,11 @@ public class MinHeapImpl implements MinHeap {
         return length;
     }
 
-    public int selectByKey(int key) {
-        for (int i :heap){
-            if (key==i){
-                return i;
-            }
+    public List<T> selectAll() {
+        List<T> list = new ArrayList<T> (heap.length);
+        for (int i=0 ;i<this.size; i++){
+            list.add (popTopValue ());
         }
-        return -1;
-    }
-
-    public List<Integer> selectAll() {
-        return Arrays.asList (heap);
+        return  list;
     }
 }
