@@ -47,7 +47,7 @@ public class QuickSort {
                 if(i!=pos){
                     swap(arr,pos,i);
                 }
-            }
+            }		
         }
         /*
          * arr[pos]代表比pivot小的某个值；
@@ -57,6 +57,9 @@ public class QuickSort {
         swap(arr,pos,begin);
         return pos;
     }
+	/*
+	 *数值交换
+	 */
     private static void swap(int[] arr, int i, int j) {
         int tem;
         tem = arr[i];

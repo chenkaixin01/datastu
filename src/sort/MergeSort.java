@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class MergeSort {
     public static int[] mergeSort(int[] arr) {
-       int[]orderArr = mergeSort(arr, 0, arr.length - 1);
+       int[] orderArr = mergeSort(arr, 0, arr.length - 1);
     return orderArr;
     }
 
