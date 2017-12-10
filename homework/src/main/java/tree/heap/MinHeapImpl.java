@@ -23,9 +23,10 @@ public class MinHeapImpl<T> implements MinHeap<T> {
      * 传入一个实体数组，初始化堆，堆的大小为数组的大小
      * @param heap:传入的数组
      */
-    public MinHeapImpl(Node<T>[] heap) {
+    public MinHeapImpl(Node<T>[] heap,int length) {
         this.heap = heap;
         this.size = heap.length;
+        this.length = length;
         makeMinHeap(this.heap);
     }
 
@@ -43,11 +44,17 @@ public class MinHeapImpl<T> implements MinHeap<T> {
      *     当堆为空是直接插入
      *     当堆不为空且未满是在末尾加入元素，然后构建堆
      *     当堆满时，如果value大于堆顶则替换堆顶重新构建堆
+     * @param key 键/权值
      * @param value 值
      * @return 返回插入状态
      */
     public boolean insert(int key,T value) {
         Node<T> newNode = new Node<T>(key,value);
+        if (insert(newNode)) return true;
+        return false;
+    }
+
+    public boolean insert(Node<T> newNode) {
         if(this.length==0){
             heap[this.length] = newNode;
             this.length++;

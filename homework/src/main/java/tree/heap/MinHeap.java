@@ -8,10 +8,18 @@ public interface MinHeap<T> {
 
     /**
      * 往最小堆中插入元素
+     * @param key 键
      * @param value 值
      * @return 返回是否成功
      */
     boolean insert(int key,T value );
+
+    /**
+     * 往最小堆中插入实体
+     * @param newNode 一个实体
+     * @return
+     */
+    boolean insert(Node<T> newNode);
 
     /**
      * 删除元素
