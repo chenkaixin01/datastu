@@ -65,14 +65,14 @@ public class Node<T> {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return "Node{" +
-                "father=" + father +
-                ", rightChild=" + rightChild +
-                ", leftChild=" + leftChild +
-                ", key=" + key +
-                ", value=" + value +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Node{"+
+//                "father{" + father +"}"+
+//                ", rightChild=" + rightChild+
+//                ", leftChild=" + leftChild+
+//                ", key=" + key +
+//                ", value=" + value +
+//                '}';
+//    }
 }
