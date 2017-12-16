@@ -29,7 +29,9 @@ public class BinaryImpl implements Binary {
 
     public boolean remove(Integer key) {
         Node toDel =findByKey(key);
-        boolean b = false;
+        if(toDel==null){
+            return false;
+        }
         boolean bLeft = toDel.getLeftChild() == null;
         boolean bRight = toDel.getRightChild () == null;
 //        如果这个节点是叶子节点，也就是左右节点都为null则直接删除此节点
@@ -37,10 +39,8 @@ public class BinaryImpl implements Binary {
 //            确定是父节点的左子或右子，并删除
             if(key<=toDel.getFather ().getKey ()){
                 toDel.getFather ().setLeftChild (null);
-                b = true;
             }else{
                 toDel.getFather ().setRightChild (null);
-                b = true;
             }
 //            如果左右节点都不为null，则取左节点的最大的节点替代被删节点
         }else if((!bLeft)&&(!bRight)){
@@ -57,26 +57,21 @@ public class BinaryImpl implements Binary {
                 replace.setLeftChild(toDel.getLeftChild());
                 toDel.getFather().setRightChild(replace);
             }
-            b= true;
 //            如果有左节点,左节点代替被删节点
         }else if(!bLeft){
             if(key<=toDel.getFather().getKey ()){
                 toDel.getFather().setLeftChild(toDel.getLeftChild());
-                b = true;
             }else{
                 toDel.getFather().setRightChild(toDel.getLeftChild());
-                b = true;
             }
         }else {
             if(key<=toDel.getFather().getKey ()){
                 toDel.getFather().setLeftChild(toDel.getLeftChild ());
-                b= true;
             }else{
                 toDel.getFather().setRightChild(toDel.getRightChild());
-                b =true;
             }
         }
-        return b;
+        return true;
     }
     private Node max(Node root) {
         if((root.getRightChild() == null) ){
@@ -150,7 +145,7 @@ public class BinaryImpl implements Binary {
 
     }
     public List<Integer> preOrder() {
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new LinkedList<>();
         return preOrder(this.root, list);
     }
 
@@ -165,7 +160,7 @@ public class BinaryImpl implements Binary {
         return list;
     }
     public List<Integer> inOrder() {
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new LinkedList<>();
         return inOrder(this.root, list);
     }
     private List<Integer> inOrder(Node root, List<Integer> list) {
@@ -179,7 +174,7 @@ public class BinaryImpl implements Binary {
         return list;
     }
     public List<Integer> postOrder() {
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> list = new LinkedList<>();
         return postOrder(this.root, list);
     }
     private List<Integer> postOrder(Node root, List<Integer> list) {
@@ -193,8 +188,8 @@ public class BinaryImpl implements Binary {
         return list;
     }
     public List<Integer> levelOrder() {
-        Queue<Node> queue = new LinkedList<Node>();
-        List<Integer> list = new ArrayList<Integer>();
+        Queue<Node> queue = new LinkedList<>();
+        List<Integer> list = new ArrayList<>();
         Node tmp;
         if(this.root==null){
             return null;
