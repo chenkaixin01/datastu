@@ -139,10 +139,12 @@ public class BinaryImpl implements Binary {
         if (key.equals (root.getKey ())) {
             return root;
         } else {
-            if (key < root.getKey ()) {
+            if (key < root.getKey ()&&root.getLeftChild()!=null) {
                 return findByKey(root.getLeftChild(), key);
-            } else {
+            } else if(root.getRightChild()!=null){
                 return findByKey(root.getRightChild(), key);
+            }else {
+                return null;
             }
         }
 
