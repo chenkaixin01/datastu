@@ -31,7 +31,7 @@ public interface ICollection {
 	/**
 	 * 集合是否包含某个关键字元素
 	 * 
-	 * @param o
+	 * @param
 	 * @return
 	 */
 	boolean contains(Object key);
@@ -47,7 +47,7 @@ public interface ICollection {
 	/**
 	 * 按关键字移除元素
 	 * 
-	 * @param o
+	 * @param
 	 * @return
 	 */
 	void remove(Object key);
